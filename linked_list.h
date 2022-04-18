@@ -1,13 +1,6 @@
-#ifndef DATA_STRUCTURES
-#define DATA_STRUCTURES
-#include <iostream>
+#ifndef LINKED_LIST
+#define LINKED_LIST
 using namespace std;
-
-class item {
-public:
-	int vertex;
-	int weight;
-};
 
 template<class T>
 class LinkedList {
@@ -40,22 +33,6 @@ public:
 			next = curr->next;
 			delete curr;
 			curr = next;
-		}
-	}
-
-};
-
-class Graph {
-
-	LinkedList<item>* adj_list_arr;
-	int n;
-public:
-	Graph() { adj_list_arr = nullptr; }
-	Graph(int _n) : n(_n) { make_empty_graph(n); }
-	void make_empty_graph(int _n) { _n = n; adj_list_arr = new LinkedList<item>[n]; }
-	bool is_adjacent(int u, int v) {
-		if (u >= 0 && u < n) {
-
 		}
 	}
 
