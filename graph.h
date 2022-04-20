@@ -7,22 +7,19 @@ class item {
 public:
 	int vertex;
 	int weight;
+	item(int v, int w) : vertex(v), weight(w) {}
 };
 
 class Graph {
-
 	LinkedList<item>* adj_list_arr;
 	int n;
 public:
-	Graph() { adj_list_arr = nullptr; }
-	Graph(int _n) : n(_n) { make_empty_graph(n); }
+	Graph(int _n=0) : n(_n) { make_empty_graph(n); }
 	void make_empty_graph(int _n) { _n = n; adj_list_arr = new LinkedList<item>[n]; }
-	bool is_adjacent(int u, int v) {
-		if (u >= 0 && u < n) {
-
-		}
-	}
-
+	bool is_adjacent(int u, int v);
+	LinkedList<item>* get_adj_list(int u);
+	void add_edge(int u, int v, int c);
+	void remove_edge(int u, int v);
 };
 
 #endif
