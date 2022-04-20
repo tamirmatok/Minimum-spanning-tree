@@ -36,6 +36,3 @@ void test_linked_list() {
 	
 	cout << "After deleting isempty return : " << lst.is_empty() << endl;
 }
-int main() {
-	test_linked_list();
-}
