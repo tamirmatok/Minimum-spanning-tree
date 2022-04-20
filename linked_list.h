@@ -3,39 +3,55 @@
 using namespace std;
 
 template<class T>
+class Node {
+public:
+	T data;
+	Node* next;
+	Node() { next = nullptr; }
+	Node(T& item, Node* ptr = nullptr) { data = item; next = ptr; }
+};
+
+template<class T>
 class LinkedList {
 public:
 
-	class Node {
-		T data;
-		Node* next;
-	public:
-		Node(T& item, Node* ptr = nullptr) { data = item; next = ptr; }
-	};
+	Node<T>* head, *tail;
 
-	Node* head, tail;
+	LinkedList() { make_empty(); }
+	void make_empty() {
+		Node<T>* dummy_head = new Node<T>();
+		tail = head = dummy_head;
+	}
 
-	LinkedList() : head(nullptr) {}
-	void make_empty() { head = tail = nullptr; }
-	bool is_empty() { return head == nullptr; }
-	void insert_to_end(Node* node) {
+	bool is_empty() {
+		return head == tail;
+	}
+
+	void insert_to_end(T& item){
+		Node<T>* node = new Node<T>(item);
 		if (is_empty())
-			head = tail = node;
-		else
-			tail->next = node;
+			head->next = node;
+		tail->next = node;
+		tail = node;
 	}
-	void delete_after(Node* node) {
 
+	void delete_after(Node<T>* node) {
+		Node<T>* temp = node->next;
+		node->next = node->next->next;
+		if (temp == tail)
+			tail = node;
+
+		delete temp;
 	}
+
 	~LinkedList() {
-		Node* next, curr = head;
+		Node<T>* next, *curr = head;
 		while (curr != nullptr) {
 			next = curr->next;
 			delete curr;
 			curr = next;
 		}
 	}
-
 };
 
 #endif
