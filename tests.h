@@ -1,5 +1,7 @@
-#include "linked_list.h"
+#ifndef TESTS_H
+#define TESTS_H 
 #include <iostream>
+#include "linked_list.h"
 using namespace std;
 
 
@@ -36,3 +38,6 @@ void test_linked_list() {
 	
 	cout << "After deleting isempty return : " << lst.is_empty() << endl;
 }
+
+
+#endif 

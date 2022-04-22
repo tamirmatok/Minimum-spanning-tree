@@ -8,6 +8,7 @@ public:
 	int vertex;
 	int weight;
 	item(int v, int w) : vertex(v), weight(w) {}
+	item() {}
 };
 
 class Graph {
@@ -15,7 +16,7 @@ class Graph {
 	int n;
 public:
 	Graph(int _n=0) : n(_n) { make_empty_graph(n); }
-	void make_empty_graph(int _n) { _n = n; adj_list_arr = new LinkedList<item>[n]; }
+	void make_empty_graph(int _n);
 	bool is_adjacent(int u, int v);
 	LinkedList<item>* get_adj_list(int u);
 	void add_edge(int u, int v, int c);
