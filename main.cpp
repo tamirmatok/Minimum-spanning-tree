@@ -5,18 +5,15 @@
 using namespace std;
 using std::string;
 using std::fstream;
-#define MAX_LINE 256
-
 
 
 void invalid_input() {
-
 	cout << "Invalid Input" << endl;
 	exit(1);
 }
 
-Graph& get_input(string file_name, int* edge_to_delete) {
 
+Graph& get_input(string file_name, int* edge_to_delete) {
 	int n, m;
 	int edge[3];
 	Graph g;
@@ -25,20 +22,14 @@ Graph& get_input(string file_name, int* edge_to_delete) {
 		cout << "File does not exist" << endl;
 		exit(1);
 	}
-
 	myFile >> n; myFile >> m;
-
 	if (n <= 0 || m < 0)
 		invalid_input();
-	
 	else {
 		g.make_empty_graph(n);
-
 		for (int i = 0; i <= m; i++) {
-
 			if (i != m) {
-				for (int j = 0; j < 3; j++)
-				{
+				for (int j = 0; j < 3; j++){
 					myFile >> edge[j];
 					if (j != 2)
 						if (edge[j] < 1 || edge[j] > n)
@@ -48,27 +39,18 @@ Graph& get_input(string file_name, int* edge_to_delete) {
 			}
 			else{
 				for (int j = 0; j < 2; j++) {
-					myFile >> edge[j];
-					if (edge[j] < 1 || edge[j] > n)
+					myFile >> edge_to_delete[j];
+					if (edge_to_delete[j] < 1 || edge_to_delete[j] > n)
 						invalid_input();
 				}
-				edge_to_delete[0] = edge[0];
-				edge_to_delete[1] = edge[1];
-
 			}
 		}
 	}
-
 	return g;
-	
 }
 
 
 int main(int argc, char** argv) {
-
 	int edge_to_delete[2];
-	//*test_linked_list();
 	Graph g = get_input(argv[1], edge_to_delete);
-
-	cout << argv[1] << endl;
 }
