@@ -1,29 +1,36 @@
-﻿#pragma once
+#pragma once
+#include <vector>
 #include <iostream>
-#include "Node.h"
 
+using namespace std;
+
+struct Pair
+{
+	int data;
+	int key;
+};
 
 class MinHeap
 {
-	static const int MAX_SIZE = 100;
-	Node data[MAX_SIZE];
-	int heapSize = 0;
+	Pair* data;
+	int heapSize;
+	int maxSize;
 
-	static int Left(int node);
-	static int Right(int node);
-	static int Parent(int node);
+	int parent(int node) const { return (node - 1) / 2; }
+	int left(int node) const { return 2 * node + 1; }
+	int right(int node) const { return 2 * node + 2; }
+	void FixHeap(int node);
 
 public:
-	void setHeapSize(int newSize) { heapSize = newSize; }
 
-	Node Root() { return *data; }
-	Node* getDataArr() { return data; }
-	int getHeapSize() { return heapSize; }
+	~MinHeap();
+	MinHeap(int size);
+	MinHeap(const MinHeap& h) = delete;
 
-	//methods
-	Node deleteMax(BaseHeap& twinHeap);
-	int insert(BaseHeap& twinHeap, Node& node); // return final node index in data
-	bool compare(int x, int y);
-	void fixHeap(int nodePos, BaseHeap& twinHeap);
-	int insertFrom(Node node);
-}
+	int GetHeapSize() { return heapSize; }
+	const Pair& DeleteMin();
+
+	void DecreaseKey(int location, int newKey);
+	void BuildMinHeap(vector<int> array, int size); // using Floyd algorithm
+};
+

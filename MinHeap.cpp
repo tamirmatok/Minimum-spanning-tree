@@ -1,116 +1,80 @@
-﻿#include "MinHeap.h"
+#include "MinHeap.h"
 
-// Private funcs
-int MinHeap::Left(int node) {
-	return (2 * node + 1);
-}
-int MinHeap::Right(int node) {
-	return (2 * node + 2);
-}
-int MinHeap::Parent(int node) {
-	return (node - 1) / 2;
-}
-
-//methods
-Node MinHeap::deleteMax(MinHeap& twinHeap)
+MinHeap:: ~MinHeap()
 {
-	if (heapSize < 1)
-	{
-		cout << "Error : Empty Heap \n";
-		exit(1);
+	delete[] data;
+}
+
+MinHeap::MinHeap(int size)
+{
+	maxSize = size;
+	heapSize = 0;
+	data = new Pair[size];
+}
+
+void MinHeap::FixHeap(int node)
+{
+	int min;
+	int left = this->left(node);
+	int right = this->right(node);
+
+	if (left < heapSize && data[left].key < data[node].key) {
+		min = left;
 	}
-	Node max = data[0];
-	heapSize--;
+	else min = node;
+	if (right < heapSize && data[right].key < data[min].key) {
+		min = right;
+	}
+
+	if (min != node) {
+
+		swap(data[min], data[node]);
+		FixHeap(min);
+	}
+}
+
+const Pair& MinHeap::DeleteMin()
+{
+	if (heapSize < 1) {
+		throw new exception("Error : Heap is empty");
+	}
+	Pair min = data[0];
+	--heapSize;
+
 	data[0] = data[heapSize];
-	data[0].index = 0;
-	twinHeap.getDataArr()[data[0].twinIndex].twinIndex = 0;
-	fixHeap(0, twinHeap);
-	return max;
+	FixHeap(0);
+
+	return min;
 }
 
-void MinHeap::swap(Node src, Node dst)
+void MinHeap::BuildMinHeap(vector<int> array, int arraySize)
 {
-	data[src.index] = dst;
-	data[src.index].index = src.index;
-	data[dst.index] = src;
-	data[dst.index].index = dst.index;
-}
-
-bool MinHeap::compare(int x, int y)
-{
-	if (isMax)
-		return x > y; // means its MinHeap
-	else
-		return x < y; // means minHeap
-}
-
-int MinHeap::insert(MinHeap& twinHeap, Node& _node)
-{
-	if (heapSize == MAX_SIZE)
+	if (arraySize > maxSize)
 	{
-		cout << "Error : Heap Full \n";
-		exit(1);
+		return;
 	}
-	int i = heapSize;
-	_node.index = heapSize;
-	Node node = _node;
-	heapSize++;
 
-	while (i > 0 && compare(node.prio, data[Parent(i)].prio))
+	for (int i = 0; i < arraySize; ++i)
 	{
-		twinHeap.getDataArr()[data[Parent(i)].twinIndex].twinIndex = i;
-		data[i] = data[Parent(i)];
-		data[i].index = i;
-		i = Parent(i);
+		data[i].key = array[i];
+		data[i].data = i;
 	}
-	node.index = i;
-	_node = node;
-	data[i] = node;
-	return i;
+
+	heapSize = arraySize;
+
+	for (int i = heapSize / 2 - 1; i >= 0; --i)
+	{
+		FixHeap(i);
+	}
 }
 
-int MinHeap::insertFrom(Node node)
+void MinHeap::DecreaseKey(int location, int newKey) 
 {
-	if (heapSize == MAX_SIZE)
+	data[location].key = newKey;
+
+	while (location > 0 && data[parent(location)].key > data[location].key)
 	{
-		cout << "wrong input";
-		exit(1);// 12 24 33
-	}
-	int i = node.index;
-	Node newNode;
-	newNode = data[i] = data[heapSize - 1];
-	data[i].index = i;
-
-	heapSize--;
-
-	while (i > 0 && compare(node.prio, data[Parent(i)].prio))
-	{
-		//twinHeap.getDataArr()[data[Parent(i)].twinIndex].twinIndex = i;
-		data[i] = data[Parent(i)];
-		data[i].index = i;
-		i = Parent(i);
-	}
-	newNode.index = i;
-	data[i] = newNode;
-	return i;
-}
-
-void MinHeap::fixHeap(int nodePos, MinHeap& twinHeap)
-{
-	int max = nodePos;
-	int left = Left(nodePos);
-	int right = Right(nodePos);
-
-	if (left < heapSize && compare(data[left].prio, data[nodePos].prio))
-		max = left;
-	if (right < heapSize && compare(data[right].prio, data[nodePos].prio))
-		max = right;
-
-	if (max != nodePos)
-	{
-		twinHeap.getDataArr()[data[nodePos].twinIndex].twinIndex = data[max].index;
-		twinHeap.getDataArr()[data[max].twinIndex].twinIndex = data[nodePos].index;
-		swap(data[nodePos], data[max]);
-		fixHeap(max, twinHeap);
+		swap(data[location], data[parent(location)]);
+		location = parent(location);
 	}
 }
