@@ -49,4 +49,5 @@ void Graph::remove_edge(int u, int v) {
 	
 	if (temp->next->data.vertex == v)
 		adj_list_arr[u].delete_after(temp);
+	m -= 1;
 }

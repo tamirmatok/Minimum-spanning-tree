@@ -17,27 +17,23 @@ class DisJointSet {
 public:
 	DisJointSet(int _n) : n(_n) {
 		A = new Element[n];
-		MakeSet();
-	}
-	void MakeSet()
-	{
 		for (int i = 0; i < n; i++) {
-			A[i].parent = i;
-			A[i].size = 1;
+			A[i].parent = -1;
+			A[i].size = 0;
 		}
 	}
+	void MakeSet(int x){
+		A[x].parent = x;
+		A[x].size = 1;
+	}
 
-	int find(int x)
-	{
+	int find(int x){
 		if (A[x].parent != x)
 			A[x].parent = find(A[x].parent);
 		return A[x].parent;
 	}
-	void Union(int x, int y) {
-		int repx = find(x);
-		int repy = find(y);
-		
-		if (repx != repy) {
+
+	void Union(int repx, int repy) {
 			if (A[repx].size > A[repy].size) {
 				A[repy].parent = repx;
 				A[repx].size += A[repy].size;
@@ -46,8 +42,6 @@ public:
 				A[repx].parent = repy;
 				A[repy].size += A[repx].size;
 			}
-		}
-
 	}
 };
 
