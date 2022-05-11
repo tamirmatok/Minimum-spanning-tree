@@ -12,10 +12,11 @@ void PriorityQueue::DecreaseKey(int place, int newKey)
 
 bool PriorityQueue::IsEmpty()
 {
-	return m_Heap.GetHeapSize() == 0;
+	return m_Heap.GetHeapSize() == 1; // because vertex 0 is a dummy
 }
 
 int PriorityQueue::DeleteMin()
 {
+	--m_Size;
 	return m_Heap.DeleteMin().data;
 }

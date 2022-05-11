@@ -31,6 +31,6 @@ public:
 	const Pair& DeleteMin();
 
 	void DecreaseKey(int location, int newKey);
-	void BuildMinHeap(vector<int> array, int size); // using Floyd algorithm
+	void BuildMinHeap(vector<int> array, int size); // implemented by Floyd algorithm
 };
 

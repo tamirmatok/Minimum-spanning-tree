@@ -36,7 +36,8 @@ void MinHeap::FixHeap(int node)
 const Pair& MinHeap::DeleteMin()
 {
 	if (heapSize < 1) {
-		throw new exception("Error : Heap is empty");
+		//throw new exception("Error : Heap is empty");
+		exit(1);
 	}
 	Pair min = data[0];
 	--heapSize;
@@ -68,9 +69,17 @@ void MinHeap::BuildMinHeap(vector<int> array, int arraySize)
 	}
 }
 
-void MinHeap::DecreaseKey(int location, int newKey) 
+void MinHeap::DecreaseKey(int index, int newKey) 
 {
-	data[location].key = newKey;
+	int location;
+
+	for (int i = 0; i < heapSize; i++)
+		if (data[i].data == index)
+		{
+			data[i].key = newKey;
+			location = i;
+			break;
+		}
 
 	while (location > 0 && data[parent(location)].key > data[location].key)
 	{
