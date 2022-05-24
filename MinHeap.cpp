@@ -2,7 +2,7 @@
 
 MinHeap:: ~MinHeap()
 {
-	delete[] data;
+	delete data;
 }
 
 MinHeap::MinHeap(int size)

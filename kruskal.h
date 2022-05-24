@@ -1,16 +1,11 @@
 #ifndef KRUSKAL_H
 #define KRUSKAL_H
-#include "disjointset.h"
-#include "vector"
+
+#include <vector>
 #include "Edge.h"
+#include "disjointset.h"
 
-
-//Assumption from forum discusion:
-//1) We can send to Kruskal sort-edges from graph G,
-//   and not to sort edges inside the algorithem.
-//2) Kruskal can return only the weight of the minimum spanning tree.
-
-int kruskal(vector<Edge> E, int n, int m) {
+int Kruskal(vector<Edge> E, int n, int m) {
 	int res = 0;
 	DisJointSet s(n + 1);
 
@@ -29,6 +24,5 @@ int kruskal(vector<Edge> E, int n, int m) {
 	}
 	return res;
 }
-
 
 #endif

@@ -2,7 +2,6 @@
 #define DISJOINTSET_H
 #include <iostream>
 
-
 class Element {
 public:
 	int parent;
@@ -44,7 +43,5 @@ public:
 			}
 	}
 };
-
-
 
 #endif // !DISJOINTSET_H

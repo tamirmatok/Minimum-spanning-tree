@@ -1,45 +1,49 @@
 #pragma once
-#include "vector"
-#include "Edge.h"
-#include "graph.h"
+#include <vector>
+#include "Graph.h"
 #include "PriorityQueue.h"
 
 
- int Prim(Graph G) 
+ int Prim(Graph& G)
 {
-	 int u; 
-	 int res = 0;
+	 int vertexU, MST_Weight = 0;
 	 int numOfVertexes = G.get_n() + 1; // vertex 0 is a dummy
-	 vector<int> min(numOfVertexes);
-	 bool* InT = new bool[numOfVertexes]{ false };
+	 bool* vertexOutOfQueue = new bool[numOfVertexes]{ false };
+	 vector<int> minWeightToVertex(numOfVertexes);
 	 PriorityQueue Q(numOfVertexes);
-	 LinkedList<item>* adj_list;
+	 LinkedList<item>* adjList;
+	 Node<item>* neighborOfU;
 
-	 min[0] = INT_MAX;
-	 min[1] = 0;
+	 minWeightToVertex[0] = INT_MAX; // just a dummy -> ignore 
+	 minWeightToVertex[1] = 0;
 	 for (int i = 2; i < numOfVertexes; i++)
-		 min[i] = INT_MAX - 1;
+		 minWeightToVertex[i] = INT_MAX;
 
-	 Q.Build(min, numOfVertexes); 
+	 Q.Build(minWeightToVertex, numOfVertexes); 
 	 while (!Q.IsEmpty())
 	 {
-		 u = Q.DeleteMin();
-		 InT[u] = true;
-		 adj_list = G.get_adj_list(u);
-		 Node<item>* curr = adj_list->head->next;
-		 while (curr != nullptr) 
+		 vertexU = Q.DeleteMin();
+		 vertexOutOfQueue[vertexU] = true;
+		 adjList = G.get_adj_list(vertexU);
+		 neighborOfU = adjList->head->next;
+		 while (neighborOfU != nullptr) 
 		 {
-			 if ((!InT[curr->data.vertex]) && (curr->data.weight < min[curr->data.vertex]))
+			 if ((!vertexOutOfQueue[neighborOfU->data.vertex]) && 
+				 (neighborOfU->data.weight < minWeightToVertex[neighborOfU->data.vertex]))
 			 {
-				 if (min[curr->data.vertex] != INT_MAX - 1)
-					 res += curr->data.weight - min[curr->data.vertex];
+				 if (minWeightToVertex[neighborOfU->data.vertex] != INT_MAX)
+					 MST_Weight += neighborOfU->data.weight - minWeightToVertex[neighborOfU->data.vertex];
 				 else
-					 res += curr->data.weight;
-				 min[curr->data.vertex] = curr->data.weight;
-				 Q.DecreaseKey(curr->data.vertex, curr->data.weight);
+					 MST_Weight += neighborOfU->data.weight;
+
+				 minWeightToVertex[neighborOfU->data.vertex] = neighborOfU->data.weight;
+				 Q.DecreaseKey(neighborOfU->data.vertex, neighborOfU->data.weight);
 			 }
-			 curr = curr->next;
+
+			 neighborOfU = neighborOfU->next;
 		 }
 	 }
-	 return res;
+	 delete[] vertexOutOfQueue;
+
+	 return MST_Weight;
 }

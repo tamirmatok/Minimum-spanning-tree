@@ -1,5 +1,4 @@
-#include "graph.h"
-
+#include "Graph.h"
 
 void Graph::make_empty_graph(int _n){
 	n = _n;

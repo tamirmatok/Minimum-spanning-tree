@@ -1,6 +1,7 @@
 #ifndef EDGE_H
 #define EDGE_H
-#include "graph.h"
+
+#include "Graph.h"
 
 class Edge {
 public:
@@ -19,11 +20,13 @@ public:
 	}
 };
 
-vector<Edge> create_edge_vec(Graph& g) {
+vector<Edge> create_edge_vec(Graph& g) 
+{
 	vector<Edge> res(g.get_m());
 	int edge_ind = 0;
 
-	for (int i = 1; i <= g.get_n(); i++) {
+	for (int i = 1; i <= g.get_n(); i++) 
+	{
 		LinkedList<item>* adj_list = g.get_adj_list(i);
 		Node<item>* curr = adj_list->head->next;
 		while (curr != nullptr) {
@@ -32,6 +35,7 @@ vector<Edge> create_edge_vec(Graph& g) {
 			curr = curr->next;
 		}
 	}
+
 	return res;
 }
 
